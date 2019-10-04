@@ -12,29 +12,36 @@ Setup and run MQTT server ([mosquitto](https://mosquitto.org/) is the easiest on
 ## Installation
 
 1. Clone or download this repository
-```
-git clone https://github.com/stas-demydiuk/ewpe-smart-mqtt
-```
+    ```
+    git clone https://github.com/stas-demydiuk/ewpe-smart-mqtt
+    ```
 2. Install dependencies
-```
-npm install
-```
+    ```
+    npm install
+    ```
 3. Make initial configuration by setting enviromental variables
 
-| Variable | Description | Default value |
-| --- | --- | --- |
-| MQTT_SERVER |MQTT server URI|mqtt://127.0.0.1|
-| MQTT_BASE_TOPIC |Base MQTT topic for bridge messages|ewpe-smart
-| NETWORK |Network adress to scan devices|192.168.1.255
-| DEVICE_POLL_INTERVAL |Interval (ms) to poll device status|5000
+    | Variable | Description | Default value |
+    | --- | --- | --- |
+    | MQTT_SERVER |MQTT server URI|mqtt://127.0.0.1|
+    | MQTT_BASE_TOPIC |Base MQTT topic for bridge messages|ewpe-smart
+    | NETWORK |Network adress to scan devices|192.168.1.255
+    | DEVICE_POLL_INTERVAL |Interval (ms) to poll device status|5000
 
 4. Run the bridge
+    ```
+    npm start
+    ```
+
+## Deployemnt (Docker)
+
+### Installation 
+
 ```
-npm start
+docker build -t ewpe-smart-mqtt .
 ```
 
-## Installation (Docker)
-
+### Running
 ```
 docker run -it \
     --network="host" \
@@ -43,7 +50,11 @@ docker run -it \
     -e "NETWORK=192.168.1.255" \
     -e "DEVICE_POLL_INTERVAL=5000" \
     --name gree-smart-mqtt \
-    demydiuk/gree-smart-mqtt:latest
+    ewpe-smart-mqtt
+```
+
+```
+docker run -it --network="host" -e "MQTT_SERVER=mqtt://127.0.0.1" -e "MQTT_BASE_TOPIC=ewpe-smart" -e "NETWORK=192.168.1.255" -e "DEVICE_POLL_INTERVAL=5000" --name ewpe-smart-mqtt  ewpe-smart-mqtt
 ```
 
 ## Communicating with the bridge
