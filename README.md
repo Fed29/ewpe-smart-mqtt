@@ -27,6 +27,9 @@ Setup and run MQTT server ([mosquitto](https://mosquitto.org/) is the easiest on
     | MQTT_BASE_TOPIC |Base MQTT topic for bridge messages|ewpe-smart
     | NETWORK |Network adress to scan devices|192.168.1.255
     | DEVICE_POLL_INTERVAL |Interval (ms) to poll device status|5000
+    | LOG_FILE |Log file location|/var/log/ewpe-smart-mqtt/app.log
+    | LOG_LEVEL |Console log level|info
+
 
 4. Run the bridge
     ```

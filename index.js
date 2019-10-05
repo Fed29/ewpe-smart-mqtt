@@ -6,13 +6,14 @@ const networkAddress = process.env.NETWORK || '192.168.1.255';
 const mqttServerAddress = process.env.MQTT_SERVER || 'mqtt://127.0.0.1';
 const mqttBaseTopic = process.env.MQTT_BASE_TOPIC || 'ewpe-smart';
 const pollInterval = process.env.DEVICE_POLL_INTERVAL || 5000;
+const logFile = process.env.LOG_FILE || '/var/log/ewpe-smart-mqtt/app.log'
+const consoleLogLevel = process.env.LOG_LEVEL || 'info',
 
 const myFormat = logger.format.printf(info => {
     return `${info.timestamp} [${info.level}]: ${JSON.stringify(info.message)}`;
 })
 
 logger.configure({
-    level: process.env.LOG_LEVEL || 'info',
     format: logger.format.combine(
         logger.format.timestamp(),
         logger.format.colorize(),
@@ -20,7 +21,19 @@ logger.configure({
         myFormat
     ),
     transports: [
-        new logger.transports.Console()
+        new logger.transports.Console({
+            level: consoleLogLevel,
+            handleExceptions: true,
+            colorize: true,
+        }),
+        new logger.transports.File({
+            level: 'info',
+            filename: logFile,
+            handleExceptions: true,
+            maxsize: 5242880, // 5MB
+            maxFiles: 5,
+            colorize: false
+        })
     ]
 });
 
@@ -40,7 +53,7 @@ mqttClient.on('connect', () => {
 
     mqttClient.on('message', async (topic, message) => {
         let matches;
-        
+
         logger.info(`MQTT message received: ${topic} ${message}`);
 
         if (topic === `${mqttBaseTopic}/devices/list`) {
