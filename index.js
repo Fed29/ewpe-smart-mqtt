@@ -6,8 +6,8 @@ const networkAddress = process.env.NETWORK || '192.168.1.255';
 const mqttServerAddress = process.env.MQTT_SERVER || 'mqtt://127.0.0.1';
 const mqttBaseTopic = process.env.MQTT_BASE_TOPIC || 'ewpe-smart';
 const pollInterval = process.env.DEVICE_POLL_INTERVAL || 5000;
-const logFile = process.env.LOG_FILE || '/var/log/ewpe-smart-mqtt/app.log'
-const consoleLogLevel = process.env.LOG_LEVEL || 'info',
+const logFile = process.env.LOG_FILE || '/var/log/ewpe-smart-mqtt/app.log';
+const consoleLogLevel = process.env.LOG_LEVEL || 'info';
 
 const myFormat = logger.format.printf(info => {
     return `${info.timestamp} [${info.level}]: ${JSON.stringify(info.message)}`;
